@@ -6,29 +6,29 @@ on:
 defaults:
  run:
   working-directory: ./
-jobs:  
+jobs:
   Build:
    name: build
    runs-on: ubuntu-latest
    
-   steps:
+   steps: 
     - name: Cloning the project repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3 
       
-    - name : Install Node.js
-      uses: actions/setup-node@v3
+    - name: Install Node.js
+      uses:  actions/setup-node@v3
       with: 
        node-version: 14.x
     - name: NPM INSTALL
       run: npm install
-      
+     
     - name: Build project
-      run: npm run build
+      run : npm run build
       
     - name: Upload our production ready build files
       uses: actions/upload-artifact@v3
       with:
-        name: production 
+        name: production
         path: ./build
   deploy:
     name: deploy
@@ -37,19 +37,21 @@ jobs:
     steps:
      - name: downloading artifacts
        uses: actions/download-artifact@v3
-       with: 
-         name: download
+       with:
+         name: production
          path: ./build
      - name: Deploy to github pages
        uses: crazy-max/ghaction-github-pages@v3
-       with:
+       with: 
           target_branch: gh-pages
           build_dir: ./build
-  stale:
+       env:
+          GITHUB_TOKEN: ${{github.token }}
+  stale: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v6
-        with: 
+        with:
           stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
           stale-pr-message: 'This PR is stale because it has been open 45 days with no activity. Remove stale label or comment or this will be closed in 10 days.'
           close-issue-message: 'This issue was closed because it has been stalled for 5 days with no activity.'
@@ -58,5 +60,3 @@ jobs:
           days-before-pr-stale: 45
           days-before-issue-close: 5
           days-before-pr-close: 10
-    
-    
