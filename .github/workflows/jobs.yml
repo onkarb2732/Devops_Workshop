@@ -34,7 +34,7 @@ jobs:
        os: [ubuntu-latest,windows-latest,macOS-latest]
     runs-on: ${{matrix.os}}
     steps:
-    -run: echo "JOB3 RUNS IF JOB2 IS SUCCESSFUL"
+    - run: echo "JOB3 RUNS IF JOB2 IS SUCCESSFUL"
   job4: 
     if : always()
     needs: job2
